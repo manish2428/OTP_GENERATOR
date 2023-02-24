@@ -38,20 +38,20 @@ const signup=new Schema({
 })
 
 
-const otp=new Schema({
-    "otp":{
-        date:Date.now(),
-        expirationDate:Date.now(),
-    }
-})
+// const otp=new Schema({
+//     "otp":{
+//         date:Date.now(),
+//         expirationDate:Date.now(),
+//     }
+// })
 
 
 //creating model object
 const Singup=model('Signup',signup)
-const Signin=model('Signin',Signin)
+const Signin=model('Signin',singin)
 
 
 // exporting the model object
 module.exports={
-    Signup,Signin
+    Singup,Signin
 }
