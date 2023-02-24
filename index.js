@@ -3,8 +3,11 @@ const express=require('express')
 const app=express()
 const signup=require('./Router/Signup') 
 const login=require('./Router/Signin')
+const conn=require('./DB/db_connection')
 
 
+//db_connection
+conn()
 
 
 //middlewares
