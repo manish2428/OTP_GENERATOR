@@ -4,6 +4,7 @@ const app=express()
 const signup=require('./Router/Signup') 
 const login=require('./Router/Signin')
 const conn=require('./DB/db_connection')
+const verification=require('./Authorization/jwt_auth')
 
 
 //db_connection
@@ -16,7 +17,7 @@ app.use('/signup',signup)
 app.use('/signin',login)
  
 
-app.get('/home',(req,res)=>{
+app.get('/home',verification,(req,res)=>{
     const date=new Date()
     let min=date.getMinutes()
     console.log(min)

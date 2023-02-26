@@ -1,20 +1,5 @@
 const {model,Schema}=require("mongoose")
 
-//signin ORM model schema
-const singin=new Schema({
-"email":{
-    type:String,
-    required:true,
-    unique:true
-},
-"password":{
-    type:String,
-    required:true,
-
-}
-
-})
-
 //Signup ORM model schema
 const signup=new Schema({
     "name":{
@@ -48,10 +33,7 @@ const signup=new Schema({
 
 //creating model object
 const Singup=model('Signup',signup)
-const Signin=model('Signin',singin)
 
 
 // exporting the model object
-module.exports={
-    Singup,Signin
-}
+module.exports=Singup

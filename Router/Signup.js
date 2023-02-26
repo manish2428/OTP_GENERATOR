@@ -1,11 +1,12 @@
 const express=require('express')
 const router=express.Router()
-const {Signup}=require('../Model/models')
+const Signup=require('../Model/models')
 const  validator = require("email-validator")
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcrypt')
 
 router.post('/',async(req,res)=>{ 
+    console.log("hello world")
     if(req.body.Password.length <5){
         return res.status(504).json({
             "Message":"Length of password should be greater than 5",
@@ -14,63 +15,32 @@ router.post('/',async(req,res)=>{
         })
     }
     if(validator.validate(req.body.Email)){
-        const payload = {
-            phone: req.body.Phone,
-            name: req.body.Name
-          };
-        const secu_key=process.env.SECRET_KEY  
-        const token=jwt.sign(payload,secu_key, "Stack", {
+      
 
-            expiresIn: '1d' // expires in 1 day
- 
-       })
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(req.body.Password, salt);
+        console.log(hash)
+   
         const signup=await Signup({
             name:req.body.Name,
             phone:req.body.Phone,
-            email:req.body.Password
+            email:req.body.Email,
+            password:hash
         })
-        
-        // console.log(process.env.SALT_ROUND)
-        const gen_salt=bcrypt.genSalt(10)
-        .then(async(result)=>{
-            let x=await bcrypt.hash(req.body.Password,result)
-            console.log(signup.password)
+
+        signup.save()
+        .then(()=>{
+            console.log("Document saved successfully");
         })
         .catch((err)=>{
-            console.log(`Error: ${err}`)
+            console.log(`Error occured while saving the document:${err}`);
         })
-
-        // console.log(gen_salt)
-
-
-        // const hash=bcrypt.hash(req.body.Password,res)
-        // .then((hash)=>{
-        //     console.log(hash)
-        // })
-        // .catch((err)=>{
-        //     console.log(`Error: ${err}`)
-        // })
-
-
-        // password=bcrypt.hash(req.body.Password,res)
-        // .then((result)=>{
-        //     console.log(result)
-        // })
-        // .catch((err)=>{
-        //     console.log(`Error: ${err}`)
-        // })
-
-        
-        // console.log(gen_salt)
-        // console.log(req.body.Password)
-        // console.log(await bcrypt.hash(req.body.Password,gen_salt))
-        signup.save()
 
         return res.status(200).json({
             "Message":"Email isverified",
             "status":"OK",
-            "Data":req.body,
-            "token":token
+            "Data":req.body
         })
 
 
