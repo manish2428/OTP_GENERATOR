@@ -18,21 +18,45 @@ const signup=new Schema({
     "password":{
         type:String,
         required:true,
+    },
+    "verified":{
+        type:String,
+        required:true,
+        
+    },
+    "otp":{
+        type:String
+           
     }
 
 })
 
 
-// const otp=new Schema({
-//     "otp":{
-//         date:Date.now(),
-//         expirationDate:Date.now(),
-//     }
-// })
+// otp schema
+ 
+// let otpsch = Schema(
+//     {
+//       number: {
+//         type: String,
+//         required: true
+//       },
+//       otp: {
+//         type: String,
+//         required: true
+//       },
+//       createdAt: {
+//         type: Date,
+//         default: Date.now,
+//         index: { expires: 300 }
+//       }
+//     },
+//     { timestamps: true } // Auto remove after 5 minutes
+//   );
 
 
 //creating model object
 const Singup=model('Signup',signup)
+// const OtpSch=model('OtpSch',otpsch)
 
 
 // exporting the model object
